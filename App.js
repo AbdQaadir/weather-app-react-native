@@ -70,7 +70,7 @@ export default function App() {
           {currentWeather.main && !loading ? (
             <>
             <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem}/>
-            <WeatherInfo currentWeather={currentWeather} />
+            <WeatherInfo currentWeather={currentWeather} unitSystem={unitSystem}/>
             </>
           ) : <></>}
           {errorMessage && !loading ? (

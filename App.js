@@ -1,17 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import React, {useEffect, useState} from "react";
 import { StyleSheet, Text, View, ActivityIndicator, TextInput, TouchableOpacity, _Text } from "react-native";
-import * as location from 'expo-location';
+import { WEATHER_API_KEY } from '@env';
 import {colors} from './utils/index'
 
 import WeatherInfo from './components/WeatherInfo'
 import UnitsPicker from "./components/UnitsPicker";
 import WeatherDetails from './components/WeatherDetails'
 
-// import {WEATHER_API_KEY} from '@env';
-const WEATHER_API_KEY = '55fc18a3d6249a2a58c2c9f13f288020';
+
 const BASE_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
-// q=${query}&units=metric&appid=${API_KEY}
 
 export default function App() {
   const [errorMessage, setErrorMessage] = useState("");

@@ -19,8 +19,6 @@ export default function App() {
   const [unitSystem, setUnitSystem] = useState("metric");
 
 
-
-
   const fetchWeather = async({lat, lon}) => {
     const weatherUrl = `${BASE_WEATHER_URL}lat=${lat}&lon=${lon}&units=${unitSystem}&appid=${WEATHER_API_KEY}`;
     fetch(weatherUrl)
@@ -33,27 +31,32 @@ export default function App() {
     setLoading(false);
   }
   const handleClick = async () => {
-    setCurrentWeather([]);
-    setErrorMessage("");
-    setLoading(true);
-    fetch(`${BASE_WEATHER_URL}q=${query}&units=metric&appid=${WEATHER_API_KEY}`)
-    .then((res) => res.json())
-    .then((data) => {
-      if(data.cod === "404"){
-        setErrorMessage(data.message);
-        setLoading(false);
-      }else{
-        const { lat, lon } = data.coord;
-        fetchWeather({lat, lon});
-      }
-    })
-    .catch((err) => setErrorMessage(err.message));
+    // Check if the input field is not empty before implementing the fetch request
+    if(query){
+      setCurrentWeather([]);
+      setErrorMessage("");
+      setLoading(true);
+      fetch(`${BASE_WEATHER_URL}q=${query}&units=metric&appid=${WEATHER_API_KEY}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if(data.cod === "404"){
+          setErrorMessage(data.message);
+          setLoading(false);
+        }else{
+          const { lat, lon } = data.coord;
+          fetchWeather({lat, lon});
+        }
+      })
+      .catch((err) => setErrorMessage(err.message));
+    }
   }
 
-  const handleUnitChange = (text) => {
-    setUnitSystem(text);
+  // Refetch the data when the unit system changes: celcius or farenheit
+  useEffect(() => {
     handleClick();
-  }
+  }, [unitSystem]);
+
+
     return (
       <View style={styles.container}>
         <StatusBar style="dark" />
@@ -66,11 +69,11 @@ export default function App() {
           </View>
           {currentWeather.main && !loading ? (
             <>
-            <UnitsPicker unitSystem={unitSystem} setUnitSystem={handleUnitChange}/>
+            <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem}/>
             <WeatherInfo currentWeather={currentWeather} />
             </>
           ) : <></>}
-          {errorMessage && !loading ? <Text style={{textAlign: 'center'}}>{errorMessage}</Text>  : <></>}
+          {errorMessage && !loading ? <Text style={{textAlign: 'center', textTransform: 'capitalize', color: 'red'}}>{errorMessage}</Text>  : <></>}
           {loading ? <ActivityIndicator size="large" color={colors.PRIMARY_COLOR} /> : <></>}
         </View>
         {currentWeather.main && !loading ? <WeatherDetails unitSystem={unitSystem} currentWeather={currentWeather}/> : <></>}

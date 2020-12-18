@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, {useEffect, useState} from "react";
 import { StyleSheet, Text, View, ActivityIndicator, TextInput, TouchableOpacity, _Text } from "react-native";
+import { FontAwesome } from '@expo/vector-icons'; 
 import { WEATHER_API_KEY } from '@env';
 import {colors} from './utils/index'
 
@@ -72,7 +73,12 @@ export default function App() {
             <WeatherInfo currentWeather={currentWeather} />
             </>
           ) : <></>}
-          {errorMessage && !loading ? <Text style={{textAlign: 'center', textTransform: 'capitalize', color: 'red', fontSize: 20}}>{errorMessage}</Text>  : <></>}
+          {errorMessage && !loading ? (
+            <>
+              <FontAwesome style={{textAlign: 'center'}} name="warning" size={25} color="red" />
+              <Text style={styles.error}>{errorMessage}</Text> 
+            </>
+          ) : <></>}
           {loading ? <ActivityIndicator size="large" color={colors.PRIMARY_COLOR} /> : <></>}
         </View>
         {currentWeather.main && !loading ? <WeatherDetails unitSystem={unitSystem} currentWeather={currentWeather}/> : <></>}
@@ -113,5 +119,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 420,
     fontWeight: '600'
+  },
+  error: {
+    textAlign: 'center',
+    textTransform: 'capitalize',
+    color: 'red',
+    fontSize: 17,
+    fontWeight: '700'
   }
 });

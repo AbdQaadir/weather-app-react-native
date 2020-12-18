@@ -73,7 +73,7 @@ export default function App() {
             <WeatherInfo currentWeather={currentWeather} />
             </>
           ) : <></>}
-          {errorMessage && !loading ? <Text style={{textAlign: 'center', textTransform: 'capitalize', color: 'red'}}>{errorMessage}</Text>  : <></>}
+          {errorMessage && !loading ? <Text style={{textAlign: 'center', textTransform: 'capitalize', color: 'red', fontSize: 20}}>{errorMessage}</Text>  : <></>}
           {loading ? <ActivityIndicator size="large" color={colors.PRIMARY_COLOR} /> : <></>}
         </View>
         {currentWeather.main && !loading ? <WeatherDetails unitSystem={unitSystem} currentWeather={currentWeather}/> : <></>}

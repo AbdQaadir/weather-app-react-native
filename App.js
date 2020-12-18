@@ -24,7 +24,6 @@ export default function App() {
     fetch(weatherUrl)
     .then((res) => res.json())
     .then((result) => {
-      console.log(result);
       setCurrentWeather(result);
     })
     .catch((err) => setErrorMessage(err.message));
